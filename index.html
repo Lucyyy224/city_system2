@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Zones Crowd Scroll</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <main>
+    <!-- 首页：项目简介（整屏锚点） -->
+    <section class="screen intro">
+      <div class="centerHUD introHUD">
+        <h1 id="introTitle">INTRODUCTION</h1>
+        <div class="square-frame">
+          <p>
+            This is a data visualization project. I observed the Dekalb Market Hall food court over three evenings from 7:30 to 9:30 PM.
+            Every 30 minutes, I recorded the number of people, their seating behavior, and the general noise level across three spatial zones.
+            <br><br>
+            Scroll down to continue...
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 三个区域页（整屏锚点） -->
+    <section class="screen" data-zone="1"
+      data-title="ZONE1"
+      data-text="Zone 1 consistently attracts more people and longer stays. It contains lots of long tables and more seats. It is normally the noisiest zone.">
+    </section>
+
+    <section class="screen" data-zone="2"
+      data-title="ZONE2"
+      data-text="Zone 2 is filled with small round tables for pairs. It often becomes full, and people tend to stay longer.">
+    </section>
+
+    <section class="screen" data-zone="3"
+      data-title="ZONE3"
+      data-text="Zone 3 remains a passing area. It is the quietest zone. Only when other areas are full will people come here. Normally, people prefer to wait for takeouts here.">
+    </section>
+  </main>
+
+  <!-- 中心 HUD（Zone 1-3 使用：初始隐藏） -->
+  <div class="centerHUD zoneHUD is-hidden">
+    <h1 id="hudTitle">ZONE1</h1>
+    <div class="square-frame">
+      <p id="hudText">Zone 1 consistently attracts more people and longer stays…</p>
+    </div>
+  </div>
+
+  <!-- 底部人物轨道 -->
+  <div class="people-strip" id="peopleStrip" aria-hidden="true">
+    <div class="panel" data-zone="1"></div>
+    <div class="panel" data-zone="2"></div>
+    <div class="panel" data-zone="3"></div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
