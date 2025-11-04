@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>Flow</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- 只引入 flow.css，避免与 style.css 冲突 -->
+  <link rel="stylesheet" href="flow.css" />
+</head>
+<body>
+
+  <div class="flow-layout">
+    <!-- 左侧相框 -->
+    <div class="flow-frame">
+      <div class="map" id="map">
+        <img src="assets/dining_shadow.png" alt="Dining plan" />
+        <div class="agents-layer" id="agentsLayer"></div>
+
+        <!-- 时间轴 -->
+        <section class="floating-ui" aria-label="timeline">
+          <div class="timeline-track">
+            <input id="dayRange" type="range" min="1" max="7" step="1" value="1" />
+            <div class="ticks">
+              <button data-day="1">1</button>
+              <button data-day="2">2</button>
+              <button data-day="3">3</button>
+              <button data-day="4">4</button>
+              <button data-day="5">5</button>
+              <button data-day="6">6</button>
+              <button data-day="7">7</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- 右侧说明 -->
+    <aside class="flow-side-text">
+      <h2>Flow Visualization</h2>
+      <p>
+        Each dot represents one person observed in the dining hall between 7:30 and 9:30 PM.
+        Slide through the days to see how density and movement shift across zones.
+      </p>
+      <p>
+        The pattern reflects social rhythm: busy tables, quiet edges, and paths that change with time.
+      </p>
+    </aside>
+  </div>
+
+  <!-- 你的黑点脚本 -->
+  <script src="flow.js"></script>
+
+  <!-- 极简自检（不会影响功能） -->
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const ok = document.getElementById('agentsLayer');
+      if (!ok) console.error('❌ 没找到 #agentsLayer，请确认 HTML 结构。');
+      else console.log('✅ Flow 页面结构加载完成。');
+    });
+  </script>
+</body>
+</html>
+

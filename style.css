@@ -1,4 +1,6 @@
 :root { --bg:#C8C5BC; --ink:#222; }
+
+/* 全局 */
 * { box-sizing: border-box; }
 html, body { height: 100%; }
 body {
@@ -7,9 +9,10 @@ body {
   color: var(--ink);
   font-family: "Times New Roman", Times, serif;
   overflow-x: hidden;
+  animation: fadeIn 1.2s ease forwards; /* 页面淡入 */
 }
 
-/* 每屏作为滚动锚点 */
+/* 每屏作为滚动锚点（只影响 index.html） */
 .screen { height: 100dvh; }
 
 /* ===== 通用居中 HUD（Intro & Zone 共用） ===== */
@@ -68,7 +71,7 @@ body {
   pointer-events: none;
 }
 
-/* ===== 底部人群轨道 ===== */
+/* ===== 底部人群轨道（只影响 index.html） ===== */
 .people-strip{
   position: fixed; inset: auto 0 0 0;
   height: 36dvh; pointer-events: none; z-index: 5;
@@ -92,4 +95,128 @@ body {
 @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
 .person.bob { animation: bob 3.8s ease-in-out infinite; animation-delay: var(--delay,0s); }
 
-/* —— 删除无效的 .intro--hidden/.intro-wrap 规则 —— */
+/* ===== Flow 页面：地图与小黑点 ===== */
+
+/* 地图容器 */
+.map {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: #C8C5BC; /* 同色兜底背景（图2色） */
+}
+
+/* 背景图在底层 */
+.map img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0.9;
+  z-index: 0; /* 最底层 */
+}
+
+/* 放黑点的层在图片上方 */
+.agents-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;       /* 在图片之上 */
+  pointer-events: none;
+}
+
+/* 小黑点（统一规则：仅由 JS 控制 transform，CSS 不再改 transform） */
+.agent {
+  position: absolute;
+  left: 0; top: 0;
+  width: 6px;
+  height: 6px;
+  background: #000;
+  border-radius: 50%;
+  opacity: 0.72;
+  filter: blur(0.4px);
+  transition: opacity 0.6s ease, transform 0.2s linear;
+  will-change: transform, opacity;
+  animation: breathe 3s ease-in-out infinite; /* 只动透明度，不动 transform */
+}
+
+/* 轻微呼吸：避免覆盖 JS 的 transform */
+@keyframes breathe {
+  0%, 100% { opacity: 0.62; }
+  50%      { opacity: 0.88; }
+}
+
+/* ===== 时间轴 UI（Flow 页面） ===== */
+.floating-ui {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  text-align: center;
+  z-index: 5;         /* 高于黑点层 */
+  pointer-events: auto;
+}
+
+/* 轨道 */
+.timeline-track { position: relative; }
+
+/* 滑动条 */
+.timeline-track input[type="range"] {
+  width: 100%;
+  appearance: none;
+  height: 4px;
+  background: #000;
+  cursor: pointer;
+  outline: none;
+  border-radius: 2px;
+}
+
+/* 滑块（圆点） */
+.timeline-track input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #000;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.timeline-track input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+/* 刻度数字 */
+.ticks {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+.ticks button {
+  border: none;
+  background: none;
+  color: #000;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: "Times New Roman", serif;
+  transition: opacity 0.3s ease;
+}
+.ticks button:hover { opacity: 0.6; }
+
+/* 页面淡入 */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+
+/* 让 Flow 在相框内铺满，而不是全屏 fixed */
+.frame .map { position: absolute; inset: 0; }
+
+/* 时间轴在相框内定位而不是 fixed 到窗口 */
+.frame .floating-ui {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 12px;
+  width: 88%;
+  z-index: 5;
+}
